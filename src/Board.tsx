@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Tile from './Tile';
 import { Game } from './Game';
 
@@ -8,9 +8,23 @@ function Board(props: {
   game: Game
 }
 ) {
+  
+  const [flagsleft, setFlagsLeft] = useState(props.game.bombarr.length);
+  const [time, setTime] = useState(0);
+  props.game.setFlagsLeftCallback(setFlagsLeft);
+  props.game.setTimeCallBack(setTime);
   return (
-
     <div className="Board" style={{ width: props.game.width * (25 + 2) + "px" }}>
+      <div className="scoreboard">
+        <div className="left">
+          <div>Bombs {props.game.bombarr.length}</div>
+          <div>Flags {flagsleft}</div>
+        </div>
+        <div className="right">
+          <div>Time {time}</div>
+        </div>
+      </div>
+
       {props.game.tiles.map((gameCoord: any) => {
         return (<Tile key={gameCoord.x + "-" + gameCoord.y} tile={gameCoord} game={props.game} />);
       })

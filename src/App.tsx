@@ -6,12 +6,10 @@ import { Game } from './Game';
 
 
 function App() {
+  const [game, setGame] = useState(new Game(25, 25, 50));
   const [, updateState] = React.useState<any>();
   const forceUpdate = React.useCallback(() => updateState({}), []);
-  const [game, setGame] = useState(new Game(25, 25, 50));
-  
-  //let game = new Game(25, 25, 50);
-  game.setGameCallBack((game: Game) => {
+  game.setBoardCallBack((game: Game) => {
     setGame(game);
     forceUpdate();
   });

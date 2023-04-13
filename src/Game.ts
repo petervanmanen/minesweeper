@@ -5,8 +5,11 @@ class Game {
     width: number = 0;
     height: number = 0;
     nrbombs: number;
-    appCallBack: any;
+    boardCallBack: any;
+    scoreboardCallBack: any;
+    timeCallBack: any;
     tiles: GameCoord[] = [];
+    start = Date.now()
     constructor(width: number, height: number, nrbombs: number) {
         this.nrbombs = nrbombs;
         this.height = height;
@@ -63,7 +66,7 @@ class Game {
             else if (gamecoord.neighbombs === 0) {
                 console.log("Neighbomb 0");
                 this.reveal(x.valueOf(), y.valueOf());
-            } else{
+            } else {
                 console.log("Neighbomb " + gamecoord.neighbombs);
                 gamecoord.revealed = true;
             }
@@ -73,28 +76,49 @@ class Game {
     }
 
     update = () => {
-        this.appCallBack(this);
+        this.boardCallBack(this);
+        this.setFlagsLeft();
     }
 
-    setGameCallBack(appCallBack:any){
-        this.appCallBack = appCallBack;
+    setBoardCallBack(appCallBack: any) {
+        this.boardCallBack = appCallBack;
     }
 
-    reveal = (x: number, y: number):boolean =>{
+    setFlagsLeftCallback = (callBack: any) => {
+        this.scoreboardCallBack = callBack;
+    }
+    setTimeCallBack = (callBack: any) => {
+        console.log("adf")
+        this.timeCallBack = callBack;
+        this.sleep(1000);
+        //callBack((Date.now() - this.start / 100000));
+    }
+    sleep = (time: number) => {
+        return new Promise((resolve) => setTimeout(resolve, time)
+        )
+    }
+    setFlagsLeft = () => {
+        let bombs = this.bombarr.length;
+        let flags = this.tiles.filter(tile => tile.marked).length;
+        console.log(bombs)
+        console.log(flags)
+        this.scoreboardCallBack(bombs - flags);
+    }
+
+
+    reveal = (x: number, y: number): boolean => {
         let gamecoord = this.getTile(x, y);
-        console.log(gamecoord);
-        if(gamecoord!=null){
+        if (gamecoord != null) {
             if (gamecoord.neighbombs === 0 && !gamecoord.revealed) {
-                console.log(gamecoord);
                 gamecoord.revealed = true;
-                this.reveal(x+1,y);
-                this.reveal(x-1,y);
-                this.reveal(x+1,y+1);
-                this.reveal(x,y+1);
-                this.reveal(x-1,y+1);
-                this.reveal(x+1,y-1);
-                this.reveal(x,y-1);
-                this.reveal(x-1,y-1);
+                this.reveal(x + 1, y);
+                this.reveal(x - 1, y);
+                this.reveal(x + 1, y + 1);
+                this.reveal(x, y + 1);
+                this.reveal(x - 1, y + 1);
+                this.reveal(x + 1, y - 1);
+                this.reveal(x, y - 1);
+                this.reveal(x - 1, y - 1);
             }
         }
         return false;
@@ -106,7 +130,7 @@ class GameCoord {
     y: Number;
     neighbombs: Number = 0;
     bomb: boolean;
-    marked:boolean =false;
+    marked: boolean = false;
     revealed: boolean = false;
 
     constructor(x: Number, y: Number, bomb: boolean, neighbombs: Number) {

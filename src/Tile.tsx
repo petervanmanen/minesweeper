@@ -1,10 +1,6 @@
 import React from 'react';
 import { GameCoord, Game } from './Game';
 
-
-
-
-
 function Tile(props: {
   tile: GameCoord,
   game: Game
@@ -17,7 +13,6 @@ function Tile(props: {
   }
 
   const rightClickHandler = (event: React.MouseEvent<HTMLElement>) => {
-    console.log(props.tile)
     props.tile.marked = !props.tile.marked;
     game.update();
   }

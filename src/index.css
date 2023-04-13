@@ -33,3 +33,14 @@ code {
   background-color: #eeebeb;
   border-color: #717070;  
 }
+.scoreboard{
+  background-color: #FFF;
+  width: 100%;
+  display: flex;
+}
+.left{
+  width: 50%;
+}
+.right{
+  width: 50%;
+}
