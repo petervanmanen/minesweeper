@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { GameCoord, Game } from './Game';
 
 
@@ -23,7 +23,7 @@ function Tile(props: {
   }
 
   return (
-    <div className={`tile ${props.tile.revealed&&props.tile.neighbombs==0?"zero":""}`} onClick={leftClickHandler} onContextMenu={rightClickHandler} >
+    <div className={`tile ${props.tile.revealed&&props.tile.neighbombs===0?"zero":""}`} onClick={leftClickHandler} onContextMenu={rightClickHandler} >
       {props.tile.revealed && props.tile.bomb ? <span>&#128163;</span> : null}
       {props.tile.revealed && !props.tile.bomb ? <span>{props.tile.neighbombs.valueOf()}</span> : null}
       {!props.tile.revealed ? <span></span> : null}
