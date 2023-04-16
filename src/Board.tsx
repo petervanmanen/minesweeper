@@ -7,17 +7,17 @@ function Board(props: {
 
 }
 ) {
-  const numFlags = 150;
+  const numBombs = 140;
   const gameWidth = 25;
   const gameHeight = 25;
-  const numBombs = numFlags;
+  const numFlags = numBombs;
 
   const [flagsleft, setFlagsLeft] = useState(numFlags);
   const [state, setState] = useState();
   const [mode, setMode] = useState(1);
 
 
-  const newGame = ():Game => {
+  const newGame = (): Game => {
     let myGame = new Game(gameWidth, gameHeight, numBombs);
     myGame.setFlagsLeftCallback(setFlagsLeft);
     myGame.setStateCallback(setState)
@@ -34,10 +34,10 @@ function Board(props: {
     console.log(game.bombarr);
   });
 
-  const togglemode = () =>{
+  const togglemode = () => {
     game.toggleMode();
   }
-  const clickNewGame = () =>{
+  const clickNewGame = () => {
     setGame(newGame);
   }
 
@@ -48,9 +48,9 @@ function Board(props: {
     }, 1000);
     return () => clearInterval(interval);
   }, [game]);
-  
+
   return (
-    <div className="Board" style={{ width: game.width * (25 + 2) + "px" }}>
+    <div>
       <div className="scoreboard">
         <div className="left">
           <div>Bombs {game.bombarr.length}</div>
@@ -61,17 +61,25 @@ function Board(props: {
           <div>{state}</div>
         </div>
       </div>
+      <div className="Board" style={{ width: game.width * 1.54 + "em" }}>
 
-      {game.tiles.map((gameCoord: any) => {
-        return (<Tile key={gameCoord.x + "-" + gameCoord.y} tile={gameCoord} game={game} />);
-      })
-      }
-      <div className="scoreboard">
-        <button onClick={togglemode}>Toggle</button>
-        <div>Mode {mode? <span>REVEAL</span> :<span>MARK</span>}</div>
-        <button onClick={clickNewGame}>Newgame</button>
+
+        {game.tiles.map((gameCoord: any) => {
+          return (<Tile key={gameCoord.x + "-" + gameCoord.y} tile={gameCoord} game={game} />);
+        })
+        }
+
+
       </div>
-
+      <div className="buttonbar">
+        <div className="left">
+          <button onClick={togglemode}>Toggle</button>
+          <div>Mode {mode ? <span>REVEAL</span> : <span>MARK</span>}</div>
+          <div className="right">
+            <button onClick={clickNewGame}>Newgame</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

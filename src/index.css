@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: large;
 }
 
 code {
@@ -13,6 +14,7 @@ code {
 }
 
 .Board{
+  margin: auto;
   display: flex;
   flex-direction:row;
   flex-wrap:wrap;
@@ -21,11 +23,11 @@ code {
 
 .tile{
   flex-grow: 1;
-  width: 25px;
-  height: 25px;
+  width: 1.56rem;
+  height: 1.56rem;
   background-color: #9f9d9d;
   border-color: #717070;
-  margin: 1px;
+  margin: 0.1em;
   font-size: xx-small;
 }
 
@@ -34,6 +36,14 @@ code {
   border-color: #717070;  
 }
 .scoreboard{
+  background-color: #FFF;
+  width: 100%;
+  display: flex;
+  padding-bottom: 1em;
+}
+.buttonbar{
+  margin: auto;
+  padding-top: 2em;
   background-color: #FFF;
   width: 100%;
   display: flex;
