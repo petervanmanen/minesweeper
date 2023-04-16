@@ -75,9 +75,9 @@ function Board(props: {
         <div className="left">
           <button onClick={togglemode}>Toggle</button>
           <div>Mode {mode ? <span>REVEAL</span> : <span>MARK</span>}</div>
-          <div className="right">
-            <button onClick={clickNewGame}>Newgame</button>
-          </div>
+        </div>
+        <div className="right">
+          <button onClick={clickNewGame}>Newgame</button>
         </div>
       </div>
     </div>

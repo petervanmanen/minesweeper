@@ -48,6 +48,9 @@ code {
   width: 100%;
   display: flex;
 }
+button{
+  font-size: 1.5em;
+}
 .left{
   width: 50%;
 }
