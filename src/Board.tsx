@@ -1,23 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tile from './Tile';
-import { Game } from './Game';
-
+import Game from './Game';
 
 
 function Board(props: {
   game: Game
 }
 ) {
-  
+  const [game, setGame] = useState(props.game);
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [, updateState] = React.useState<any>();
+  game.setBoardCallBack((game: Game) => {
+    setGame(game);
+    forceUpdate();
+    console.log(game.bombarr);
+  });
+
   const [flagsleft, setFlagsLeft] = useState(props.game.bombarr.length);
+  game.setFlagsLeftCallback(setFlagsLeft);
+
   const [time, setTime] = useState(0);
-  props.game.setFlagsLeftCallback(setFlagsLeft);
-  props.game.setTimeCallBack(setTime);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(game.getRuntime());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [game]);
+  
   return (
-    <div className="Board" style={{ width: props.game.width * (25 + 2) + "px" }}>
+    <div className="Board" style={{ width: game.width * (25 + 2) + "px" }}>
       <div className="scoreboard">
         <div className="left">
-          <div>Bombs {props.game.bombarr.length}</div>
+          <div>Bombs {game.bombarr.length}</div>
           <div>Flags {flagsleft}</div>
         </div>
         <div className="right">
@@ -25,8 +39,8 @@ function Board(props: {
         </div>
       </div>
 
-      {props.game.tiles.map((gameCoord: any) => {
-        return (<Tile key={gameCoord.x + "-" + gameCoord.y} tile={gameCoord} game={props.game} />);
+      {game.tiles.map((gameCoord: any) => {
+        return (<Tile key={gameCoord.x + "-" + gameCoord.y} tile={gameCoord} game={game} />);
       })
       }
     </div>

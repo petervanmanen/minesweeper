@@ -1,5 +1,6 @@
 import React from 'react';
-import { GameCoord, Game } from './Game';
+import Game from './Game';
+import GameCoord from './GameCoord';
 
 function Tile(props: {
   tile: GameCoord,
@@ -10,6 +11,7 @@ function Tile(props: {
 
   const leftClickHandler = (event: React.MouseEvent<HTMLElement>) => {
     game.click(props.tile.x, props.tile.y);
+    game.update();
   }
 
   const rightClickHandler = (event: React.MouseEvent<HTMLElement>) => {
