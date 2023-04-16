@@ -6,9 +6,12 @@ class Game {
     bombarr: number[];
     width: number = 0;
     height: number = 0;
+    revealmode:boolean = true;
     nrbombs: number;
     boardCallBack: any;
     scoreboardCallBack: any;
+    stateCallBack: any;
+    modeCallBack: any;
     timeCallBack: any = null;
     tiles: GameCoord[] = [];
     startTime = Date.now()
@@ -61,15 +64,15 @@ class Game {
         return bombs;
     }
 
-    click = (x: Number, y: Number) => {
+    select = (x: Number, y: Number) => {
+        if(!this.revealmode)
+            return this.mark(x,y);
         let gamecoord = this.getTileByCoordinate(x, y);
         this.startgame();
-        console.log(gamecoord);
-        console.log(this.getNumberForCoordinate(x.valueOf(),y.valueOf()));
         if (gamecoord != null) {
             if (gamecoord.bomb) {
                 gamecoord.revealed = true;
-                this.state = "lost";
+                this.setState("lost");
                 console.log("You lost");
             }
             else if (gamecoord.neighbombs === 0) {
@@ -82,11 +85,19 @@ class Game {
         return;
     }
 
+    mark = (x: Number, y: Number) => {
+        let gamecoord = this.getTileByCoordinate(x, y);
+        this.startgame();
+
+        if(gamecoord!==undefined && this.tiles.filter(tile => tile.marked).length < this.nrbombs)
+            gamecoord.marked = !gamecoord?.marked;
+    }
+
     update = () => {
         this.boardCallBack(this);
         if(this.gamewon()){
-            this.state = "You win!";
-            console.log("You win!");
+            this.setState("You win!");
+            console.log("You win!"+this.getRuntime() + "seconds");
         }
         this.setFlagsLeft();
     }
@@ -98,6 +109,16 @@ class Game {
     setFlagsLeftCallback = (callBack: any) => {
         this.scoreboardCallBack = callBack;
     }
+    setStateCallback = (callBack: any) => {
+        this.stateCallBack = callBack;
+    }
+    setModeCallback = (callBack: any) => {
+        this.modeCallBack = callBack;
+    }
+    toggleMode = () => {
+        this.revealmode = ! this.revealmode;
+        this.modeCallBack(this.revealmode);
+    }
 
     sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     setFlagsLeft = () => {
@@ -107,6 +128,7 @@ class Game {
     }
 
     reveal = (x: number, y: number): boolean => {
+
         let gamecoord = this.getTileByCoordinate(x, y);
         if (gamecoord != null) {
             if (gamecoord.neighbombs === 0 && !gamecoord.revealed) {
@@ -126,7 +148,7 @@ class Game {
     startgame(){
         console.log("Startgame");
         if(!this.started){
-            this.state = "started";
+            this.setState("");
             this.started=true;
             this.startTime = Date.now();
         }
@@ -144,6 +166,10 @@ class Game {
     }
     getNumberForCoordinate(x:number,y:number):number{
         return x + ((y-1) * this.width);
+    }
+    setState(state:string){
+        this.state = state;
+        this.stateCallBack(state);
     }
 }
 

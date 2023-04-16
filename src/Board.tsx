@@ -4,10 +4,28 @@ import Game from './Game';
 
 
 function Board(props: {
-  game: Game
+
 }
 ) {
-  const [game, setGame] = useState(props.game);
+  const numFlags = 150;
+  const gameWidth = 25;
+  const gameHeight = 25;
+  const numBombs = numFlags;
+
+  const [flagsleft, setFlagsLeft] = useState(numFlags);
+  const [state, setState] = useState();
+  const [mode, setMode] = useState(1);
+
+
+  const newGame = ():Game => {
+    let myGame = new Game(gameWidth, gameHeight, numBombs);
+    myGame.setFlagsLeftCallback(setFlagsLeft);
+    myGame.setStateCallback(setState)
+    myGame.setModeCallback(setMode)
+    return myGame;
+  }
+
+  const [game, setGame] = useState(newGame());
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [, updateState] = React.useState<any>();
   game.setBoardCallBack((game: Game) => {
@@ -16,8 +34,12 @@ function Board(props: {
     console.log(game.bombarr);
   });
 
-  const [flagsleft, setFlagsLeft] = useState(props.game.bombarr.length);
-  game.setFlagsLeftCallback(setFlagsLeft);
+  const togglemode = () =>{
+    game.toggleMode();
+  }
+  const clickNewGame = () =>{
+    setGame(newGame);
+  }
 
   const [time, setTime] = useState(0);
   useEffect(() => {
@@ -36,6 +58,7 @@ function Board(props: {
         </div>
         <div className="right">
           <div>Time {time}</div>
+          <div>{state}</div>
         </div>
       </div>
 
@@ -43,6 +66,12 @@ function Board(props: {
         return (<Tile key={gameCoord.x + "-" + gameCoord.y} tile={gameCoord} game={game} />);
       })
       }
+      <div className="scoreboard">
+        <button onClick={togglemode}>Toggle</button>
+        <div>Mode {mode? <span>REVEAL</span> :<span>MARK</span>}</div>
+        <button onClick={clickNewGame}>Newgame</button>
+      </div>
+
     </div>
   );
 }

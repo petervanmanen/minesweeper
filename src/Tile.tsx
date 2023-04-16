@@ -8,14 +8,13 @@ function Tile(props: {
 }) {
   let game = props.game;
 
-
   const leftClickHandler = (event: React.MouseEvent<HTMLElement>) => {
-    game.click(props.tile.x, props.tile.y);
+    game.select(props.tile.x, props.tile.y);
     game.update();
   }
 
   const rightClickHandler = (event: React.MouseEvent<HTMLElement>) => {
-    props.tile.marked = !props.tile.marked;
+    game.mark(props.tile.x, props.tile.y);
     game.update();
   }
 
