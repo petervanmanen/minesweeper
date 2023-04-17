@@ -141,6 +141,7 @@ class Game {
                 this.reveal(x, y - 1);
                 this.reveal(x - 1, y - 1);
             }
+            gamecoord.revealed = true;
         }
         return false;
     }
