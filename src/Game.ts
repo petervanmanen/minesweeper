@@ -78,7 +78,6 @@ class Game {
             else if (gamecoord.neighbombs === 0) {
                 this.reveal(x.valueOf(), y.valueOf());
             } else {
-                console.log("Neighbomb " + gamecoord.neighbombs);
                 gamecoord.revealed = true;
             }
         }

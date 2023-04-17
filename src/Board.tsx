@@ -7,7 +7,7 @@ function Board(props: {
 
 }
 ) {
-  const numBombs = 140;
+  const numBombs = 125;
   const gameWidth = 25;
   const gameHeight = 25;
   const numFlags = numBombs;
@@ -31,7 +31,6 @@ function Board(props: {
   game.setBoardCallBack((game: Game) => {
     setGame(game);
     forceUpdate();
-    console.log(game.bombarr);
   });
 
   const togglemode = () => {
@@ -45,7 +44,7 @@ function Board(props: {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(game.getRuntime());
-    }, 1000);
+    }, 950);
     return () => clearInterval(interval);
   }, [game]);
 
