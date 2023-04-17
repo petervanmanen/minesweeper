@@ -19,9 +19,9 @@ function Tile(props: {
   }
 
   return (
-    <div className={`tile ${props.tile.revealed&&props.tile.neighbombs===0?"zero":""}`} onClick={leftClickHandler} onContextMenu={rightClickHandler} >
+    <div className={`tile ${props.tile.revealed?"revealed t"+props.tile.neighbombs:""}`} onClick={leftClickHandler} onContextMenu={rightClickHandler} >
       {(props.tile.revealed && props.tile.bomb) || (game.state === 'lost' && props.tile.bomb)? <span>&#128163;</span> : null}
-      {props.tile.revealed && !props.tile.bomb ? <span>{props.tile.neighbombs.valueOf()}</span> : null}
+      {props.tile.revealed && !props.tile.bomb && props.tile.neighbombs.valueOf() > 0 ? <span>{props.tile.neighbombs.valueOf()}</span> : null}
       {!props.tile.revealed ? <span></span> : null}
       {props.tile.marked ? <span>&#128681;</span> : null}
     </div>
