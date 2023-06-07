@@ -1,6 +1,6 @@
 # minesweeper
 
-First attempt at a react typescript app. 
+First go at a react typescript app. Its minesweeper but in react.
 
 npm start to run it locally
 
